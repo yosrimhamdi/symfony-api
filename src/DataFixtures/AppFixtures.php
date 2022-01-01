@@ -5,47 +5,68 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\Invoice;
 use App\Entity\Customer;
+use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private $encoder;
+
+    public function __construct(UserPasswordHasherInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('en_US');
 
-        $chrono = 1;
+        for ($u = 0; $u < 10; $u++) {
+            $chrono = 1;
 
-        for ($c = 0; $c < mt_rand(6, 10); $c++) {
-            $customer = new Customer();
-
-            $customer
+            $user = new User();
+            $user
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
                 ->setEmail($faker->email)
-                ->setCompany($faker->company);
+                ->setPassword($this->encoder->hashPassword($user, 'password'));
 
-            $manager->persist($customer);
+            $manager->persist($user);
 
-            for ($i = 0; $i < mt_rand(2, 5); $i++) {
-                $invoice = new Invoice();
+            for ($c = 0; $c < mt_rand(10, 20); $c++) {
+                $customer = new Customer();
 
-                $invoice
-                    ->setCustomer($customer)
-                    ->setAmount($faker->randomFloat(2, 500, 1000))
-                    ->setSentAt(
-                        new \DateTimeImmutable(
-                            $faker
-                                ->dateTimeBetween('-6 months')
-                                ->format('Y-m-d H:i:s')
+                $customer
+                    ->setFirstName($faker->firstName)
+                    ->setLastName($faker->lastName)
+                    ->setEmail($faker->email)
+                    ->setCompany($faker->company)
+                    ->setUser($user);
+
+                $manager->persist($customer);
+
+                for ($i = 0; $i < mt_rand(2, 5); $i++) {
+                    $invoice = new Invoice();
+
+                    $invoice
+                        ->setCustomer($customer)
+                        ->setAmount($faker->randomFloat(2, 500, 1000))
+                        ->setSentAt(
+                            new \DateTimeImmutable(
+                                $faker
+                                    ->dateTimeBetween('-6 months')
+                                    ->format('Y-m-d H:i:s')
+                            )
                         )
-                    )
-                    ->setStatus(
-                        $faker->randomElement(['PAID', 'SENT', 'CANCELLED'])
-                    )
-                    ->setChrono($chrono++);
+                        ->setStatus(
+                            $faker->randomElement(['PAID', 'SENT', 'CANCELLED'])
+                        )
+                        ->setChrono($chrono++);
 
-                $manager->persist($invoice);
+                    $manager->persist($invoice);
+                }
             }
         }
 
