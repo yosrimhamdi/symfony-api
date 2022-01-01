@@ -10,7 +10,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture {
     public function load(ObjectManager $manager): void {
-        $faker = Factory::create('en_EN');
+        $faker = Factory::create('en_US');
 
         for ($c = 0; $c < mt_rand(6, 10); $c++) {
             $customer = new Customer();
