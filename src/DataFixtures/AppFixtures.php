@@ -14,6 +14,8 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('en_US');
 
+        $chrono = 1;
+
         for ($c = 0; $c < mt_rand(6, 10); $c++) {
             $customer = new Customer();
 
@@ -41,7 +43,7 @@ class AppFixtures extends Fixture
                     ->setStatus(
                         $faker->randomElement(['PAID', 'SENT', 'CANCELLED'])
                     )
-                    ->setChrono($i + 1);
+                    ->setChrono($chrono++);
 
                 $manager->persist($invoice);
             }
