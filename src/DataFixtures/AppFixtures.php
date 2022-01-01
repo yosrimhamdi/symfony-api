@@ -8,8 +8,10 @@ use App\Entity\Customer;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
-class AppFixtures extends Fixture {
-    public function load(ObjectManager $manager): void {
+class AppFixtures extends Fixture
+{
+    public function load(ObjectManager $manager): void
+    {
         $faker = Factory::create('en_US');
 
         for ($c = 0; $c < mt_rand(6, 10); $c++) {
@@ -38,7 +40,8 @@ class AppFixtures extends Fixture {
                     )
                     ->setStatus(
                         $faker->randomElement(['PAID', 'SENT', 'CANCELLED'])
-                    );
+                    )
+                    ->setChrono($i + 1);
 
                 $manager->persist($invoice);
             }
