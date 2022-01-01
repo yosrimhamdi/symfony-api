@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Invoice;
 use App\Entity\Customer;
 use Doctrine\Persistence\ObjectManager;
@@ -9,7 +10,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture {
     public function load(ObjectManager $manager): void {
-        $faker = \Faker\Factory::create();
+        $faker = Factory::create('en_EN');
 
         for ($c = 0; $c < mt_rand(6, 10); $c++) {
             $customer = new Customer();
