@@ -28,30 +28,31 @@ class Customer
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups('customers_read')]
+    #[Groups(['customers_read', 'invoices_read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups('customers_read')]
+    #[Groups(['customers_read', 'invoices_read'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups('customers_read')]
+    #[Groups(['customers_read', 'invoices_read'])]
     private $lastName;
 
-    #[Groups('customers_read')]
+    #[Groups(['customers_read', 'invoices_read'])]
     #[ORM\Column(type: 'string', length: 255)]
     private $email;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups('customers_read')]
+    #[Groups(['customers_read', 'invoices_read'])]
     private $company;
 
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Invoice::class)]
-    #[Groups('customers_read')]
+    #[Groups(['customers_read', 'invoices_read'])]
     private $invoices;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'customers')]
+    #[Groups(['customers_read', 'invoices_read'])]
     private $user;
 
     public function __construct()
