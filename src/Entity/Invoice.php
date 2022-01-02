@@ -16,6 +16,9 @@ use Doctrine\ORM\Mapping as ORM;
             'order' => [
                 'amount' => 'DESC',
             ],
+        ],
+        serializationContext: [
+            'groups' => ['invoices_read'],
         ]
     )
 ]
@@ -26,15 +29,19 @@ class Invoice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups('invoices_read')]
     private $id;
 
     #[ORM\Column(type: 'float')]
+    #[Groups('invoices_read')]
     private $amount;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups('invoices_read')]
     private $sentAt;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('invoices_read')]
     private $status;
 
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'invoices')]
@@ -42,6 +49,7 @@ class Invoice
     private $customer;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups('invoices_read')]
     private $chrono;
 
     public function getId(): ?int
