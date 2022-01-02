@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
     )
 ]
 
+#[ApiFilter(OrderFilter::class, properties: ['amount', 'sentAt'])]
 class Invoice
 {
     #[ORM\Id]
