@@ -1,0 +1,23 @@
+{
+  "name": "symfony-react-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "php bin/console server:run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yosrimhamdi/symfony-react-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yosrimhamdi/symfony-react-api/issues"
+  },
+  "homepage": "https://github.com/yosrimhamdi/symfony-react-api#readme"
+}
