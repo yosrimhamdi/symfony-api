@@ -39,14 +39,16 @@ class Customer
     #[Groups('customers_read')]
     private $lastName;
 
-    #[ORM\Column(type: 'string', length: 255)]
     #[Groups('customers_read')]
+    #[ORM\Column(type: 'string', length: 255)]
     private $email;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups('customers_read')]
     private $company;
 
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Invoice::class)]
+    #[Groups('customers_read')]
     private $invoices;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'customers')]
