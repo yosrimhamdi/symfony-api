@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\InvoiceRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 #[
@@ -17,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
                 'amount' => 'DESC',
             ],
         ],
-        serializationContext: [
+        normalizationContext: [
             'groups' => ['invoices_read'],
         ]
     )
