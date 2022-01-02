@@ -9,3 +9,6 @@ api_platform:
     pagination:
       enabled: false
       items_per_page: 5
+      client_enabled: true # ?pagination=true
+      client_items_per_page: true # ?size=10
+      items_per_page_parameter_name: 'size'
