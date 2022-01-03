@@ -20,6 +20,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
         ],
         normalizationContext: [
             'groups' => ['invoices_read'],
+        ],
+        subresourceOperations: [
+            'api_customers_invoices_get_subresource' => [
+                'normalization_context' => [
+                    'groups' => ['invoices_subresource'],
+                ],
+            ],
         ]
     )
 ]
@@ -30,19 +37,19 @@ class Invoice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['invoices_read', 'customers_read'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private $id;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(['invoices_read', 'customers_read'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private $amount;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['invoices_read', 'customers_read'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private $sentAt;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['invoices_read', 'customers_read'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private $status;
 
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'invoices')]
@@ -51,7 +58,7 @@ class Invoice
     private $customer;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['invoices_read', 'customers_read'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private $chrono;
 
     public function getId(): ?int
