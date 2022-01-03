@@ -60,6 +60,34 @@ class Customer
         $this->invoices = new ArrayCollection();
     }
 
+    #[Groups('invoices_read')]
+    public function getTotalMount(): float
+    {
+        return array_reduce(
+            $this->invoices->toArray(),
+            function ($total, $invoice) {
+                return $total + $invoice->getAmount();
+            },
+            0
+        );
+    }
+
+    #[Groups('invoices_read')]
+    public function getUnpaidAmount(): float
+    {
+        return array_reduce(
+            $this->invoices->toArray(),
+            function ($total, $invoice) {
+                if ($invoice->getStatus() !== 'PAID') {
+                    return $total + 0;
+                }
+
+                return $total + $invoice->getAmount();
+            },
+            0
+        );
+    }
+
     public function getId(): ?int
     {
         return $this->id;
