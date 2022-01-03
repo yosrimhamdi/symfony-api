@@ -27,6 +27,21 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
                     'groups' => ['invoices_subresource'],
                 ],
             ],
+        ],
+        itemOperations: [
+            'GET',
+            'PUT',
+            'DELETE',
+            'increment' => [
+                'method' => 'POST',
+                'path' => '/invoices/{id}/increment',
+                'controller' =>
+                    'App\Controller\InvoiceChronoIncrementController',
+                'swagger_context' => [
+                    'summary' => 'Increment an invoice',
+                    'description' => 'Increment the chrono of an invoice',
+                ],
+            ],
         ]
     )
 ]
