@@ -71,10 +71,10 @@ class Invoice
 
     private $amount;
 
+    #[ORM\Column(type: 'datetime')]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     #[Assert\NotBlank]
     #[Assert\DateTime]
-    #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private $sentAt;
 
     #[ORM\Column(type: 'string', length: 255)]
