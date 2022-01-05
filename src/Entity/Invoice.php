@@ -74,7 +74,7 @@ class Invoice
     #[ORM\Column(type: 'datetime')]
     #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     #[Assert\NotBlank]
-    #[Assert\Type('\DateTimeInterface')]
+    #[Assert\Type(type: '\DateTimeInterface', message: 'not acceptable type.')]
     private $sentAt;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -117,7 +117,7 @@ class Invoice
         return $this->sentAt;
     }
 
-    public function setSentAt(\DateTime $sentAt): self
+    public function setSentAt($sentAt): self
     {
         $this->sentAt = $sentAt;
 
