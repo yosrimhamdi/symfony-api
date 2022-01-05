@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[
@@ -34,18 +35,25 @@ class Customer
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customers_read', 'invoices_read'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customers_read', 'invoices_read'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private $lastName;
 
     #[Groups(['customers_read', 'invoices_read'])]
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Email]
+    #[Assert\Length(max: 255)]
     private $email;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['customers_read', 'invoices_read'])]
+    #[Assert\Length(max: 255)]
     private $company;
 
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Invoice::class)]
@@ -55,6 +63,7 @@ class Customer
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'customers')]
     #[Groups(['customers_read', 'invoices_read'])]
+    #[Assert\NotBlank]
     private $user;
 
     public function __construct()

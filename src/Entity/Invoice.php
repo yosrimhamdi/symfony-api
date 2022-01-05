@@ -7,6 +7,7 @@ use App\Repository\InvoiceRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 #[
@@ -57,23 +58,38 @@ class Invoice
 
     #[ORM\Column(type: 'float')]
     #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Assert\NotBlank]
+    #[
+        Assert\Type(
+            type: 'float',
+            message: 'bad request expecting float found string.'
+        )
+    ]
+
     private $amount;
 
+    #[Assert\NotBlank]
+    #[Assert\DateTime]
     #[ORM\Column(type: 'datetime_immutable')]
     #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private $sentAt;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Assert\NotBlank]
+    #[Assert\Choice(choices: ['PAID', 'CANCELLED', 'SENT'])]
     private $status;
 
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups('invoices_read')]
+    #[Assert\NotBlank]
     private $customer;
 
     #[ORM\Column(type: 'integer')]
     #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     private $chrono;
 
     public function getId(): ?int
