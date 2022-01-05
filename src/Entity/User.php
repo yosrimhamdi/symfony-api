@@ -2,17 +2,20 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
+#[UniqueEntity]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,20 +26,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Groups(['customers_read'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 180)]
+    #[Assert\Email]
     private $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 4, max: 255)]
     private $password;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customers_read'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['customers_read'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private $lastName;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Customer::class)]
