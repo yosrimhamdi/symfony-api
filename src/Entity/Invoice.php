@@ -74,7 +74,7 @@ class Invoice
     #[ORM\Column(type: 'datetime')]
     #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     #[Assert\NotBlank]
-    #[Assert\DateTime]
+    #[Assert\Type('\DateTimeInterface')]
     private $sentAt;
 
     #[ORM\Column(type: 'string', length: 255)]
