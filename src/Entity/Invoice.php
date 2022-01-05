@@ -22,6 +22,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         normalizationContext: [
             'groups' => ['invoices_read'],
         ],
+        denormalizationContext: [
+            'disable_type_enforcement' => true,
+        ],
         subresourceOperations: [
             'api_customers_invoices_get_subresource' => [
                 'normalization_context' => [
@@ -61,7 +64,7 @@ class Invoice
     #[Assert\NotBlank]
     #[
         Assert\Type(
-            type: 'float',
+            type: 'numeric',
             message: 'bad request expecting float found string.'
         )
     ]
@@ -102,7 +105,7 @@ class Invoice
         return $this->amount;
     }
 
-    public function setAmount(float $amount): self
+    public function setAmount($amount): self
     {
         $this->amount = $amount;
 
@@ -150,7 +153,7 @@ class Invoice
         return $this->chrono;
     }
 
-    public function setChrono(int $chrono): self
+    public function setChrono($chrono): self
     {
         $this->chrono = $chrono;
 
