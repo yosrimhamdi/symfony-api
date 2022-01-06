@@ -36,8 +36,9 @@ security:
       provider: app_user_provider
 
   access_control:
+    - { path: /api, roles: PUBLIC_ACCESS, methods: GET }
     - { path: ^/api/login, roles: PUBLIC_ACCESS }
-    - { path: ^/api/users, roles: PUBLIC_ACCESS, methods: POST }
+    - { path: /api/users, roles: PUBLIC_ACCESS, methods: POST }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
